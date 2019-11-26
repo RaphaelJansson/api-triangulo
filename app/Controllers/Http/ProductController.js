@@ -3,7 +3,8 @@
 const Product = use('App/Models/Product')
 const Rule = use('App/Models/Pricerule')
 const User = use("App/Models/User")
-const Database = use('Database')
+const Category = use("App/Models/Category")
+
 
 class ProductController {
 
@@ -29,6 +30,7 @@ class ProductController {
     return product
   }
 
+
   async showorders({ auth, params, request, response, view }) {
     const { id } = auth.user
     const userp = await User.find(id)
@@ -47,25 +49,67 @@ class ProductController {
 
     return product
   }
-  
-  async productrule({ auth }) {
+  async productrule({ auth, params }) {
     const { id } = auth.user
     const user = await User.find(id)
     const rule = await Rule.query().where('rule', user.rule).fetch()
-
+    var category = await Category.findBy('id', params.category)
     var arrayproduct = []
     for (const productrule of rule.rows) {
       try {
         if (productrule.price > 0) {
           const product = await Product.findBy('name', productrule.name)
-          product.price = productrule.price
-          arrayproduct.push(product)
+            if(category!= undefined){
+              if (category.name == product.category){
+                product.price = productrule.price
+                arrayproduct.push(product)
+              }
+            }else if(params.category == "0") {
+              product.price = productrule.price
+              arrayproduct.push(product)
+            }       
         }
       } catch (e) {
         continue;
       }
     }
-    return arrayproduct;
+    const order = arrayproduct.sort(function (a, b) {
+      if (a.unitofmeasuredefault == b.unitofmeasuredefault) {
+        return a.category < b.category ? -1 : a.category > b.category ? 1 : 0;
+      }
+      return a.unitofmeasuredefault < b.unitofmeasuredefault ? -1 : a.unitofmeasuredefault > b.unitofmeasuredefault ? 1 : 0;
+    });
+    return order;
+  }
+
+  async showcategory({ auth }) {
+    const { id } = auth.user
+    const user = await User.find(id)
+    const rule = await Rule.query().where('rule', user.rule).fetch()
+
+    var arraycategory = []
+    for (const productrule of rule.rows) {
+      try {
+        if (productrule.price > 0) {
+          const product = await Product.findBy('name', productrule.name)
+          if (product != undefined) {
+            var category = await Category.findBy('name', product.category)
+            if (category != undefined) {
+              const result = arraycategory.find(o => o.name == product.category)
+              if (result == undefined) {
+                arraycategory.push(category)
+              }
+            } else {
+              var category = await Category.create({ name: product.category })
+              arraycategory.push(category)
+            }
+          }
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+    return arraycategory;
   }
 
   async shippingfreight({ auth }) {

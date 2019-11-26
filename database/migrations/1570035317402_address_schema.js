@@ -16,12 +16,7 @@ class AddressSchema extends Schema {
         .onDelete('CASCADE')
         .notNullable()
       table.string('addressname')
-      table.string('address')
-      table.string('city')
-      table.string('state')
-      table.string('postalcode')
-      table.string('coutry')
-      table.string('note')
+      table.json('address')
       table.timestamps()
     })
   }

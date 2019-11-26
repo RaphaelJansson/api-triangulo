@@ -27,6 +27,13 @@ class AddressController {
   
       return address
   }
+
+  async showname ({ auth ,params, request, response, view }) {
+    const  {id} = auth.user
+    const address = await Address.query('addresses').where('user_id', id).where('addressname', 'like',`%${params.name}%`).fetch()
+
+    return address
+}
   
   async edit ({ params, request, response, view }) {
   }

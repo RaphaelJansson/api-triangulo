@@ -5,7 +5,7 @@ node_modules
 tmp
 
 # ENV Variables
-#.env
+.env
 
 # The development sqlite file
 database/development.sqlite

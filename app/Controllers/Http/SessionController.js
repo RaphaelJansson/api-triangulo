@@ -3,7 +3,8 @@
 const User = use("App/Models/User");
 class SessionController {
   async create({ request, auth, response }) {
-    const { email, password } = request.all()
+    var { email, password } = request.all()
+    email = email.toLowerCase()
     const user = await User.findBy('email',email);
     if (user.status == true) {
     const token = await auth.attempt(email, password)

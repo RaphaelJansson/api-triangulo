@@ -3,7 +3,8 @@
 const Order = use('App/Models/Order')
 const User = use("App/Models/User")
 const Database = use('Database')
-const rabbitmq = require('../../../config/rabbitmq')
+
+
 class OrderController {
 
   async index({ auth, request, response, view }) {
@@ -18,16 +19,14 @@ class OrderController {
 
   async store({ auth, request, response }) {
     const { id } = auth.user
-    const { itens, ...data } = request.only(['address', 'products', 'price', 'obs', 'itens'])
+    const msg = await Database.select('message').from('webmessages')
+    const { itens, address, ...data } = request.only(['address', 'products', 'price', 'obs', 'itens','po'])
     const count = await Order.query().where('quickbooks', '=', false).getCount()
-    /**
-     * FIXME:
-     * Verificar se da erro quando usa o JSON.Stringify
-     */
     data.itens = JSON.stringify(itens)
+    data.address = JSON.stringify(address)
     data.refnumber = parseInt(count)
+    data.obs = msg[0].message
     const order = await Order.create({ ...data, user_id: id })
-   
     return order
   }
 
@@ -44,7 +43,7 @@ class OrderController {
 
   async showopenorders({ auth, params, request, response, view }) {
     const { id } = auth.user
-    const order = await Database.table('orders').where('user_id', id)
+    const order = await Database.table('orders').where('user_id', id).where('status', true).orderBy('refnumber','desc')
 
     //await order.load('products')
 

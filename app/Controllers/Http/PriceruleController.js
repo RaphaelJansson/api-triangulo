@@ -3,6 +3,7 @@
 const User = use("App/Models/User")
 const Price = use("App/Models/Pricerule")
 const excel = require('../../../config/excel')
+const Database = use('Database')
 
 class PriceruleController {
 
@@ -16,6 +17,7 @@ class PriceruleController {
       return response.status(403).send({ 'msg': 'Você não tem permissão para atualizar a PriceRuleList' })
     }
     const listusers = await excel.storcustomerrule()
+    await Database.table('users').update('rule', '')
     for (const customer of listusers) {
       try {
         var name = customer.name
@@ -26,7 +28,7 @@ class PriceruleController {
         user.merge(datauser)
         await user.save()
       } catch (e) {
-        console.log(`Não achou o usuario`)
+        console.log(`Não achou o usuario ${name}`)
       }
     }
     const listitens = await excel.storitensrule()

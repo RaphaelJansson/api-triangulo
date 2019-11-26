@@ -4,8 +4,9 @@ const Route = use('Route')
 //##produtos##
 Route.get('/productorders/:id', 'UserController.showorders').middleware('auth')
 Route.resource('product', 'ProductController').apiOnly().middleware('auth')
-Route.get('productrule', 'ProductController.productrule').middleware('auth')
+Route.get('productrule/:category', 'ProductController.productrule').middleware('auth')
 Route.get('freight', 'ProductController.shippingfreight').middleware('auth')
+Route.get('category', 'ProductController.showcategory').middleware('auth')
 
 //##Pedidos##
 Route.resource('order', 'OrderController').apiOnly().middleware('auth')
@@ -17,10 +18,13 @@ Route.get('showorders', 'OrderController.showopenorders').middleware('auth')
 Route.post('/users/create', 'UserController.create')
 Route.put('/users/newpassword', 'UserController.showpassword').middleware('auth')
 Route.resource('/users', 'UserController').apiOnly().middleware('auth')
+Route.post('/users/samepassword', 'UserController.samepassword').middleware('auth')
+
 
 //##Enderecos##
 Route.resource('/address', 'AddressController').apiOnly().middleware('auth')
 Route.get('address/showaddress/:id', 'UserController.showaddresses').middleware('auth')
+Route.get('address/showname/:name', 'AddressController.showname').middleware('auth')
 
 //##PriceRule##
 Route.resource('/pricerule', 'PriceruleController').apiOnly().middleware('auth')

@@ -1,0 +1,78 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add nodemailer-express-handlebar
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Common Files\Intuit\QBPOSSDKRuntime;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\PostgreSQL\11\bin;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Users\Rafael\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Rafael\AppData\Local\Microsoft\WindowsApps;C:\Users\Rafael\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Rafael\AppData\Local\Yarn\bin;C:\Users\Rafael\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\Rafael\AppData\Roaming\nvm;C:\Program Files\nodejs
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  10.16.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/nodemailer-express-handlebar: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65939:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140464:22)
+      at Request.emit (events.js:198:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141436:10)
+      at Request.emit (events.js:198:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141358:12)
+      at Object.onceWrapper (events.js:286:20)
+      at IncomingMessage.emit (events.js:203:15)
+      at endReadableNT (_stream_readable.js:1145:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "adonis-api-app",
+    "version": "4.1.0",
+    "adonis-version": "4.1.0",
+    "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+    "main": "index.js",
+    "scripts": {
+      "start": "ENV_SILENT=true node server.js",
+      "test": "node ace test",
+      "release": "ENV_SILENT=true node ace migration:run --force"
+    },
+    "engines": {
+      "node": "10.16.2"
+    },
+    "keywords": [
+      "adonisjs",
+      "adonis-app"
+    ],
+    "author": "",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+      "@adonisjs/ace": "^5.0.8",
+      "@adonisjs/auth": "^3.0.7",
+      "@adonisjs/bodyparser": "^2.0.5",
+      "@adonisjs/cors": "^1.0.7",
+      "@adonisjs/fold": "^4.0.9",
+      "@adonisjs/framework": "^5.0.9",
+      "@adonisjs/ignitor": "^2.0.8",
+      "@adonisjs/lucid": "^6.1.3",
+      "amqplib": "^0.5.5",
+      "dotenv": "^8.1.0",
+      "jsonwebtoken": "^8.5.1",
+      "node-xlsx": "^0.15.0",
+      "nodemailer": "^6.3.0",
+      "pg": "^7.12.1",
+      "url-parse": "^1.4.7"
+    },
+    "devDependencies": {},
+    "autoload": {
+      "App": "./app"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

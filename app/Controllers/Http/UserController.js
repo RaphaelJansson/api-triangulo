@@ -88,6 +88,25 @@ class UserController {
     return user
   }
 
+  async samepassword({auth, params, request, response }) {
+    const { id } = auth.user
+    const userp = await User.find(id)
+    if (userp.permission != 4) {
+      return response.status(403).send({ 'msg': 'Você não tem permissão' })
+    }
+
+    const users = await User.all()
+     const data = request.only(["password"])
+
+     for (const user of users.rows){
+      user.merge(data)
+
+      await user.save()
+     }
+
+    return users
+  }
+
   
 }
 
