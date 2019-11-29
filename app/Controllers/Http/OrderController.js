@@ -18,7 +18,12 @@ class OrderController {
   }
 
   async store({ auth, request, response }) {
-    const { id } = auth.user
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
     const msg = await Database.select('message').from('webmessages')
     const { itens, address, ...data } = request.only(['address', 'products', 'price', 'obs', 'itens','po'])
     const count = await Order.query().where('quickbooks', '=', false).getCount()
@@ -32,7 +37,12 @@ class OrderController {
 
   async show({ auth, params, request, response, view }) {
     const order = await Order.findOrFail(params.id)
-    const { id } = auth.user
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
     if (order.user_id != id) {
       return response.status(403).send({ 'msg': 'Você não é dono desta ordem de pedido' })
     }
@@ -42,7 +52,12 @@ class OrderController {
   }
 
   async showopenorders({ auth, params, request, response, view }) {
-    const { id } = auth.user
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
     const order = await Database.table('orders').where('user_id', id).where('status', true).orderBy('refnumber','desc')
 
     //await order.load('products')
@@ -52,7 +67,12 @@ class OrderController {
 
   async update({ auth, params, request, response }) {
     const order = await Order.findOrFail(params.id)
-    const { id } = auth.user
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
     if (order.user_id != id) {
       return response.status(403).send({ 'msg': 'Você não é dono desta ordem de pedido' })
     }
@@ -72,7 +92,12 @@ class OrderController {
 
   async conclude({ auth, params, request, response }) {
     const order = await Order.findOrFail(params.id)
-    const { id } = auth.user
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
     if (order.user_id != id) {
       return response.status(403).send({ 'msg': 'Você não é dono desta ordem de pedido' })
     }
@@ -92,7 +117,12 @@ class OrderController {
 
   async cancel({ auth, params, request, response }) {
     const order = await Order.findOrFail(params.id)
-    const { id } = auth.user
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
     if (order.user_id != id) {
       return response.status(403).send({ 'msg': 'Você não é dono desta ordem de pedido' })
     }
@@ -107,9 +137,13 @@ class OrderController {
 
   async destroy({ auth, params, request, response }) {
     const order = await Order.findOrFail(params.id)
-    const { id } = auth.user
-    const userp = await User.find(id)
-    if (order.user_id != id || userp.permission != 4) {
+    var { id } = auth.user
+    const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+    }
+    if (order.user_id != id || user.permission != 4) {
       return response.status(403).send({ 'msg': 'Você não tem permissão para excluir este pedido' })
 
     }
