@@ -26,10 +26,8 @@ class OrderController {
     }
     const msg = await Database.select('message').from('webmessages')
     const { itens, address, ...data } = request.only(['address', 'products', 'price', 'obs', 'itens','po'])
-    const count = await Order.query().where('quickbooks', '=', false).getCount()
     data.itens = JSON.stringify(itens)
     data.address = JSON.stringify(address)
-    data.refnumber = parseInt(count)
     data.obs = msg[0].message
     const order = await Order.create({ ...data, user_id: id })
     return order
