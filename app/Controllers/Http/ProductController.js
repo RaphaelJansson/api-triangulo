@@ -12,7 +12,7 @@ class ProductController {
     const product = Product.all()
     return product
   }
-
+  // nao é usado
   async store({ auth, request, response }) {
     const { id } = auth.user
     const userp = await User.find(id)
@@ -30,7 +30,7 @@ class ProductController {
     return product
   }
 
-
+  // nao é usado
   async showorders({ auth, params, request, response, view }) {
     const { id } = auth.user
     const userp = await User.find(id)
@@ -43,15 +43,21 @@ class ProductController {
 
     return product
   }
-
+  // nao é usado
   async show({ auth, params, request, response, view }) {
     const product = await Product.findOrFail(params.id)
 
     return product
   }
+
   async productrule({ auth, params }) {
-    const { id } = auth.user
+    var { id } = auth.user
     const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      id = father.id
+      user.rule = father.rule
+    }
     const rule = await Rule.query().where('rule', user.rule).fetch()
     var category = await Category.findBy('id', params.category)
     var arrayproduct = []
@@ -83,8 +89,12 @@ class ProductController {
   }
 
   async showcategory({ auth }) {
-    const { id } = auth.user
+    var { id } = auth.user
     const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      user.rule = father.rule
+    }
     const rule = await Rule.query().where('rule', user.rule).fetch()
 
     var arraycategory = []
@@ -113,8 +123,12 @@ class ProductController {
   }
 
   async shippingfreight({ auth }) {
-    const { id } = auth.user
+    var { id } = auth.user
     const user = await User.find(id)
+    if (user.id_father != 0){
+      const father = await User.find(user.id_father)
+      user.rule = father.rule
+    }
 
     const shipping = await Rule.query().where('rule', user.rule).where('name', 'like', '%Shipping%').fetch()
 

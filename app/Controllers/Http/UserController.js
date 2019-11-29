@@ -79,7 +79,7 @@ class UserController {
       return response.status(403).send({ 'msg': 'Você não tem permissão' })
     }
 
-    const data = request.only(["password", "permission", "status", "rule"])
+    const data = request.only(["password", "permission", "status", "rule", "id_father", "username"])
     const user = await User.findOrFail(params.id)
     user.merge(data)
 

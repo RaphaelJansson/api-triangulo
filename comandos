@@ -3,3 +3,5 @@ $ git commit -am "make it better"
 $ git push heroku master
 
 heroku run ENV_SILENT=true node ace seed --force
+
+adonis make:migration users --action select
