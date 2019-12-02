@@ -7,7 +7,21 @@ const Database = use('Database')
 
 class PriceruleController {
 
-  async index({ request, response, view }) {
+  async index({auth, request, response, view }) {
+    const { id } = auth.user
+    const userp = await User.find(id)
+    if (userp.permission != 4) {
+      return response.status(403).send({ 'msg': 'Você não tem permissão para atualizar a PriceRuleList' })
+    }
+    var arrayrules = []
+    const rule = await Price.all()
+    for (const rules of rule.rows){
+      const result = arrayrules.find(r=> r.rule == rules.rule)
+      if (result == undefined){
+        arrayrules.push({rule: rules.rule})
+      } 
+    }
+    return arrayrules
   }
 
   async store({ auth, request, response }) {
