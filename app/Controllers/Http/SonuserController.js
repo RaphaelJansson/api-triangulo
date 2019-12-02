@@ -14,6 +14,17 @@ class SonuserController {
     const sonuser = User.query().where('id_father', '>', 0).fetch()
     return sonuser
   }
+  //todos os fatherusers
+  async indexfathers({auth,response}) {
+    const { id } = auth.user
+    const user = await User.find(id)
+    if (user.permission != 4) {
+      return response.status(403).send({ 'msg': 'Você não tem permissão' })
+    }
+    const fatheruser = User.query().where('id_father', '=', 0).fetch()
+    return fatheruser
+  }
+
   //todos os usuarios com seus subusers
   async indexbyuser({ auth, request, response, view }) {
     const { id } = auth.user

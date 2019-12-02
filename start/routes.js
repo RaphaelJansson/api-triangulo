@@ -20,10 +20,11 @@ Route.put('/users/newpassword', 'UserController.showpassword').middleware('auth'
 Route.resource('/users', 'UserController').apiOnly().middleware('auth')
 Route.post('/users/samepassword', 'UserController.samepassword').middleware('auth')
 
-//##subusers##
+//##Sonusers##
 Route.resource('/sonusers', 'SonuserController').apiOnly().middleware('auth')
 Route.get('/sonusersbyfather', 'SonuserController.indexbyuser').middleware('auth')
 Route.get('/sonusersbyfathers/:id', 'SonuserController.showbyuser').middleware('auth')
+Route.get('/fathersusers', 'SonuserController.indexfathers').middleware('auth')
 
 //##Enderecos##
 Route.resource('/address', 'AddressController').apiOnly().middleware('auth')
